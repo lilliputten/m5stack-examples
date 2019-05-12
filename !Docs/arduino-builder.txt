@@ -1,0 +1,53 @@
+Usage of arduino-builder.exe:
+  -build-cache string
+    	builds of 'core.a' are saved into this folder to be cached and reused
+  -build-options-file string
+    	Instead of specifying --hardware, --tools etc every time, you can load all such options from a file
+  -build-path string
+    	build path
+  -built-in-libraries value
+    	Specify a built-in 'libraries' folder. These are low priority libraries. Can be added multiple times for specifying multiple built-in 'libraries' folders
+  -code-complete-at string
+    	output code completions for sketch at a specific location. Location format is "file:line:col"
+  -compile
+    	compiles the given sketch
+  -core-api-version string
+    	version of core APIs (used to populate ARDUINO #define) (default "10600")
+  -daemon
+    	daemonizes and serves its functions via rpc
+  -debug-level int
+    	Turns on debugging messages. The higher, the chattier (default 5)
+  -dump-prefs
+    	dumps build properties used when compiling
+  -experimental
+    	enables experimental features
+  -fqbn string
+    	fully qualified board name
+  -hardware value
+    	Specify a 'hardware' folder. Can be added multiple times for specifying multiple 'hardware' folders
+  -ide-version string
+    	[deprecated] use 'core-api-version' instead (default "10600")
+  -jobs int
+    	specify how many concurrent gcc processes should run at the same time. Defaults to the number of available cores on the running machine
+  -libraries value
+    	Specify a 'libraries' folder. Can be added multiple times for specifying multiple 'libraries' folders
+  -logger string
+    	Sets type of logger. Available values are 'human', 'humantags', 'machine' (default "human")
+  -prefs value
+    	Specify a custom preference. Can be added multiple times for specifying multiple custom preferences
+  -preprocess
+    	preprocess the given sketch
+  -quiet
+    	if 'true' doesn't print any warnings or progress or whatever
+  -tools value
+    	Specify a 'tools' folder. Can be added multiple times for specifying multiple 'tools' folders
+  -trace
+    	traces the whole process lifecycle
+  -verbose
+    	if 'true' prints lots of stuff
+  -version
+    	prints version and exits
+  -vid-pid string
+    	specify to use vid/pid specific build properties, as defined in boards.txt
+  -warnings string
+    	Sets warnings level. Available values are 'none', 'default', 'more' and 'all'
