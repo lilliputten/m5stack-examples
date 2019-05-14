@@ -130,11 +130,11 @@ void buttons_test() {
     if(M5.BtnB.wasPressed()) {
         M5.Lcd.printf("B");
         Serial.printf("B");
-    } 
+    }
     if(M5.BtnC.wasPressed()) {
         M5.Lcd.printf("C");
         Serial.printf("C");
-    } 
+    }
 }
 
 void wifi_test() {
@@ -185,8 +185,8 @@ bool gpio_test_flg = 0;
 void GPIO_test() {
     // uint8_t gpio_table[] = {23,19,18,3,16,21,2,12,15,26,1,17,22,5,13,0,34};
     uint8_t gpio_table[] = {12,2,21,16,3,18,19,23,15,0,13,5,22,17,1,26,25};
-    
-    // while(1) 
+
+    // while(1)
     {
         for (int i = 0; i<=sizeof(gpio_table) / sizeof(gpio_table[0]); i++) {
             pinMode(gpio_table[i], OUTPUT);
@@ -455,8 +455,8 @@ unsigned long testFilledRoundRects()
 
 // the setup routine runs once when M5Stack starts up
 void setup() {
-    
-    //gpio test 
+
+    //gpio test
     // pinMode(BUTTON_A_PIN, INPUT_PULLUP);
     // if(digitalRead(BUTTON_A_PIN) == 0) {
     //     gpio_test_flg = 1;
@@ -468,6 +468,8 @@ void setup() {
 
     // initialize the M5Stack object
     M5.begin();
+    Serial.begin(9600);
+    Serial.println("Start");
 
     // dac test
     // if (gpio_test_flg)
@@ -572,7 +574,7 @@ void setup() {
     Serial.println(F("Done!"));
     yield();
 
-    //rand draw 
+    //rand draw
     int i = 250;
     while(--i) {
         M5.Lcd.fillTriangle(random(M5.Lcd.width()-1), random(M5.Lcd.height()-1), random(M5.Lcd.width()-1), random(M5.Lcd.height()-1), random(M5.Lcd.width()-1), random(M5.Lcd.height()-1), random(0xfffe));
