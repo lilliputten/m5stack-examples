@@ -1,0 +1,8 @@
+
+let g:ale_linters = {
+\   'arduino': [ 'cppcheck' ],
+\   'ino': [ 'cppcheck' ],
+\   'h': [ 'cppcheck' ],
+\   'cpp': [ 'cppcheck' ],
+\   'pcss': [ 'stylelint' ],
+\}

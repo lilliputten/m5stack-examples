@@ -1,11 +1,17 @@
 #include <M5Stack.h>
 #include <WiFi.h>
 
+// #include "module"
+
+#include "Module.h"
+
 extern unsigned char timer_logo[];
 extern unsigned char insertsd_logo[];
 extern unsigned char error_logo[];
 extern unsigned char wifi_logo[];
 extern unsigned char views_logo[];
+
+Module module;
 
 WiFiServer server(80);
 
@@ -14,8 +20,6 @@ WiFiServer server(80);
 // IPAddress networkGateway(192, 168, 0, 1);
 // IPAddress networkSubnet(255, 255, 255, 0);
 
-/** setup ** {{{
- */
 // cppcheck-suppress unusedFunction
 void setup() {
 
@@ -23,6 +27,10 @@ void setup() {
 
   Serial.begin(9600);
   Serial.println("Start");
+
+  // int testResult = moduleTest();
+  int testResult = module.test();
+  Serial.println("DEBUG: " + String(testResult));
 
   M5.Lcd.setBrightness(10);
 
@@ -88,10 +96,8 @@ void setup() {
     // drawViews();
     server.begin();
   }
-}/*}}}*/
+}
 
-/** TFReadFile ** {{{
- */
 String TFReadFile(String path) {
   File file = SD.open(strToChar(path));
   String buf = "";
@@ -102,10 +108,8 @@ String TFReadFile(String path) {
     file.close();
   }
   return buf;
-}/*}}}*/
+}
 
-/** TFWriteFile ** {{{
- */
 bool TFWriteFile(String path, String str) {
   File file = SD.open(strToChar(path), FILE_WRITE);
   if (file) {
@@ -115,18 +119,16 @@ bool TFWriteFile(String path, String str) {
   }
   file.close();
   return false;
-}/*}}}*/
+}
 
-/** strToChar ** {{{
- */
 char* strToChar(String str) {
   int len = str.length() + 1;
   char* buf = new char[len];
   strcpy(buf, str.c_str());
   return buf;
-}/*}}}*/
+}
 
-/** parseString ** {{{ like a split JS
+/** like a split JS
  * @param {int} idSeparator
  * @param {char} separator
  * @param {String} str
@@ -149,20 +151,16 @@ String parseString(int idSeparator, char separator, String str) {
     }
   }
   return output;
-}/*}}}*/
+}
 
-/** cntChrs ** {{{
- */
 int cntChrs(String str, char chr) {
   int cnt = 0;
   for (int i = 0; i < str.length(); i++) {
     if (str[i] == chr) cnt++;
   }
   return cnt;
-}/*}}}*/
+}
 
-/** configWifi ** {{{
- */
 bool configWifi() {
   /* Get WiFi SSID & password from wifi.ini from TF-card */
   String file = TFReadFile("/system/wifi.ini");
@@ -209,10 +207,8 @@ bool configWifi() {
   }
   Serial.println("WiFi: Failed");
   return false;
-}/*}}}*/
+}
 
-/** parseGET ** {{{
- */
 String parseGET(String str) {
   String tmp = "";
   for (int i = 0, j = 0; i < str.length(); i++) {
@@ -227,34 +223,30 @@ String parseGET(String str) {
     }
   }
   return tmp;  // tmp.substring(1)
-}/*}}}*/
+}
 
-// /** openPage ** {{{
-//  */
-// String openPage(String page) {
-//   page += ".md";
-//   String content = TFReadFile(page);
-//   if (content != "") {
-//     // Increment & show views count
-//     increaseViews(true);
-//     // drawViews();
-//     return content;
-//   }
-//   return "# 404 NOT FOUND #\n### MARKDOWN WEB SERVER ON M5STACK  ###";  // if not found 404
-// }/*}}}*/
-
-/** getViews ** {{{
+/* // UNUSED openPage
+ * String openPage(String page) {
+ *   page += ".md";
+ *   String content = TFReadFile(page);
+ *   if (content != "") {
+ *     // Increment & show views count
+ *     increaseViews(true);
+ *     // drawViews();
+ *     return content;
+ *   }
+ *   return "# 404 NOT FOUND #\n### MARKDOWN WEB SERVER ON M5STACK  ###";  // if not found 404
+ * }
  */
+
 int getViews() {
   String file = TFReadFile("/system/views");
   if (file != "") {
     return file.toInt();
   }
   return 0;
-}/*}}}*/
+}
 
-/** saveViews ** {{{
- */
 bool saveViews(int views, bool draw) {
   if (draw) {
     drawViews(views);
@@ -264,17 +256,13 @@ bool saveViews(int views, bool draw) {
     return true;
   }
   return false;
-}/*}}}*/
+}
 
-/** increaseViews ** {{{
- */
 bool increaseViews(bool draw) {
   int views = getViews() + 1;
   saveViews(views, draw);
-}/*}}}*/
+}
 
-/** drawViews ** {{{
- */
 void drawViews(int views) {
   // int views = getViews();
   if (views != -1) {
@@ -283,10 +271,8 @@ void drawViews(int views) {
     M5.Lcd.setCursor(55, 205);
     M5.Lcd.print(views);
   }
-}/*}}}*/
+}
 
-/** loop ** {{{
- */
 // cppcheck-suppress unusedFunction
 void loop() {
   String currentString = "";
@@ -344,4 +330,4 @@ void loop() {
       }
     }
   }
-}/*}}}*/
+}
