@@ -12,3 +12,4 @@ Linters:
 Arduino:
 - Emulator
 - Dev.cycle (quick linting, testing)
+- Compile quick tests using Arduino/M5Stack libs
