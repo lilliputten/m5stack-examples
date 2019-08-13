@@ -38,7 +38,8 @@ void setup() {
   // M5.Lcd.drawBitmap(30, 75, 59, 59, reinterpret_cast<uint16_t *>(timer_logo));
   M5.Lcd.drawBitmap(30, 75, 59, 59, (uint16_t *)timer_logo);
   M5.Lcd.setCursor(110, 90);
-  M5.Lcd.print("STARTING...");
+  M5.Lcd.print("Старт...");
+  Serial.println("Старт...");
   M5.Lcd.setCursor(110, 110);
   M5.Lcd.print("WAIT A MOMENT");
 
