@@ -49,7 +49,7 @@ int posChar(String str, char chr) {
   for (int p = 0; p < str.length(); p++)
   {
     if (str[p] == chr) t++;
-    if (t == n) return p; 
+    if (t == n) return p;
   }
   return -1;
 }
@@ -90,13 +90,13 @@ bool createTrackList(String dir) {
       if (!entry.isDirectory())
       {
         String ext = parseString(cntChar(entry.name(), '.'), '.', entry.name());
-        if (ext == "mp3") 
+        if (ext == "mp3")
         {
           i++;
           Track *tmp = new Track;
           tmp->label = entry.name();
           tmp->timePos = 0;
-          tmp->right = tmp; 
+          tmp->right = tmp;
           if (trackList == NULL)
           {
             tmp->left = tmp;
@@ -132,7 +132,7 @@ bool play(char dir) {
     case 'r':
       if (trackList == trackList->right) return false;
       trackList->timePos = 0;
-      trackList = trackList->right;       
+      trackList = trackList->right;
     break;
     case 'l':
     if (trackList == trackList->left) return false;
@@ -172,7 +172,7 @@ bool play(char dir) {
   mp3 = new AudioGeneratorMP3();
   playing = true;
   mp3->begin(id3, out);
-  
+
   return true;
 }
 
@@ -201,15 +201,16 @@ void drawTimeline() {
     int heightLine = 2;
     int heightMark = 20;
     int widthMark = 2;
+    int widthMarkHalf = widthMark / 2;
     int yClear = y - (heightMark / 2);
-    int wClear = width + (widthMark / 2);
-    
+    int wClear = width + widthMarkHalf;
+
     drawTimeline_previousMillis = currentMillis;
     M5.Lcd.fillRect(x, yClear, wClear, heightMark, 0xffff);
     M5.Lcd.fillRect(x, y, width, heightLine, 0x7bef);
     int size_ = id3->getSize();
     int pos_ = id3->getPos();
-    int xPos = x + ((pos_ * (width - (widthMark / 2))) / size_);
+    int xPos = x + ((pos_ * (width - widthMarkHalf)) / size_);
     M5.Lcd.fillRect(xPos, yClear, widthMark, heightMark, 0xe8e4);
   }
 }
@@ -225,7 +226,7 @@ void drawSpectrum(int a, int b, int c, int d) { // %
   int aY = y + (height - aH);
   M5.Lcd.fillRect(x, y, width, height, 0xffff);
   M5.Lcd.fillRect(x, aY, width, aH, 0x7bef); //0xe8e4
-  
+
   int bH = ((b * height) / 100);
   int bY = y + (height - bH);
   int bX = x + width + padding;
@@ -256,8 +257,8 @@ void drawTrackList() {
     if (((trackList->left)->label).length() > 24) label = label.substring(0, 24) + ".";
     M5.Lcd.print(label);
   }
- 
-  M5.Lcd.setTextSize(3); 
+
+  M5.Lcd.setTextSize(3);
   M5.Lcd.setTextColor(0x0000);
   M5.Lcd.setCursor(10, 155);
   String label = (trackList->label).substring(1, posChar((trackList->label), '.'));
@@ -269,7 +270,7 @@ void drawTrackList() {
     M5.Lcd.setTextSize(2);
     M5.Lcd.setTextColor(0x7bef);
     M5.Lcd.setCursor(10, 185);
-    String label = ((trackList->right)->label).substring(1, posChar(((trackList->right)->label), '.'));
+    label = ((trackList->right)->label).substring(1, posChar(((trackList->right)->label), '.'));
     if (((trackList->right)->label).length() > 24) label = label.substring(0, 24) + ".";
     M5.Lcd.print(label);
   }
@@ -284,14 +285,15 @@ void drawGUI() {
     if (m5.BtnB.wasPressed())
     {
       M5.Lcd.fillRect(0, 0, 320, 240, 0x0000);
-      M5.Lcd.fillRoundRect(0, 0, 320, 240, 7, 0xffff); 
+      M5.Lcd.fillRoundRect(0, 0, 320, 240, 7, 0xffff);
       drawTrackList();
-      break; 
+      break;
     }
     m5.update();
   }
 }
 
+// cppcheck-suppress unusedFunction
 void setup(){
   M5.begin();
   WiFi.mode(WIFI_OFF);
@@ -317,7 +319,7 @@ void setup(){
     M5.Lcd.setTextColor(0xe8e4);
     M5.Lcd.print("POWER");
     M5.Lcd.setTextColor(0x7bef);
-    M5.Lcd.print(" BUTTON"); 
+    M5.Lcd.print(" BUTTON");
     while(true);
   }
   if (!createTrackList("/"))
@@ -341,7 +343,7 @@ void setup(){
   play('m');
 }
 
-void loop(){ 
+void loop(){
   if (m5.BtnA.wasPressed())
   {
     play('l');
