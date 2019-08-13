@@ -1,8 +1,6 @@
 #include <M5Stack.h>
 #include <WiFi.h>
 
-// #include "module"
-
 #include "Module.h"
 
 extern unsigned char timer_logo[];
