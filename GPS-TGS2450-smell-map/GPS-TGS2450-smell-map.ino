@@ -10,7 +10,7 @@ int val = 0;
 
 //デザリングパスワード/////////////////
 const char* ssid = "Thom_D0047515";
-const char* password = "8547f93a578977aed98a941ce8";
+const char* password = "mountain";
 ///////////////////////////////////////
 
 //自宅/////////////////

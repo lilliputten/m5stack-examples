@@ -6,7 +6,7 @@
 #define button_C 37
 
 char ssid[] = "Thom_D0047515";
-char password[] = "8547f93a578977aed98a941ce8";
+char password[] = "mountain";
 
 WiFiServer server(80);
 IPAddress ip(192, 168, 0, 17);
@@ -18,8 +18,6 @@ extern unsigned char lightOff[];
 
 String M5STACK_DATA;
 
-/** setup ** {{{
- */
 // cppcheck-suppress unusedFunction
 void setup() {
 
@@ -61,10 +59,8 @@ void setup() {
 
   M5.Lcd.print("\n");
 
-}/*}}}*/
+}
 
-/** parseGET ** {{{
- */
 String parseGET(String str) {
   String tmp = "";
   for (int i = 0, j = 0; i < str.length(); i++) {
@@ -75,20 +71,16 @@ String parseGET(String str) {
     if (j == 2) break;
   }
   return tmp;
-}/*}}}*/
+}
 
-/** button ** {{{
- */
 bool button(int contactNumber) {
   if (digitalRead(contactNumber) == LOW) {
     delay(10);
     if (digitalRead(contactNumber) == LOW) return true;
   }
   return false;
-}/*}}}*/
+}
 
-/** loop ** {{{
- */
 // cppcheck-suppress unusedFunction
 void loop() {
   String currentString = "";
@@ -207,4 +199,4 @@ void loop() {
       }
     }
   }
-}/*}}}*/
+}
