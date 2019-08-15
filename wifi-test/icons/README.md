@@ -5,3 +5,6 @@
 > Preset: R5G6B5  
 > Block size: 8bit  
 > Byte order: Big-Endian
+
+Use type for data array:
+const unsigned char

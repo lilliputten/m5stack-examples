@@ -6,17 +6,14 @@
 #include <M5Stack.h>
 #include <WiFi.h>
 
-#define DARK_GRAY_COLOR 0x7bef
-
 // #include "Module.h"
 // Module module;
 
-extern unsigned char timer_logo[];
-extern unsigned char insertsd_logo[];
-extern unsigned char error_logo[];
-// extern unsigned char wifi_logo[];
-extern unsigned char wifi60w[];
-extern unsigned char views_logo[];
+extern unsigned char IconSdCard60w[];
+extern unsigned char IconError60w[];
+extern unsigned char IconClock60w[];
+extern unsigned char IconWifi60w[];
+extern unsigned char IconCounterSm60w[];
 
 WiFiServer server(80);
 
@@ -41,8 +38,7 @@ void setup() {
   M5.Lcd.fillScreen(BLACK);
   M5.Lcd.setTextColor(WHITE);
   M5.Lcd.setTextSize(2);
-  // M5.Lcd.drawBitmap(30, 75, 59, 59, reinterpret_cast<uint16_t *>(timer_logo));
-  M5.Lcd.drawBitmap(30, 75, 59, 59, (uint16_t *)timer_logo);
+  M5.Lcd.drawBitmap(30, 85, 60, 60, (uint16_t *)IconClock60w);
   M5.Lcd.setCursor(110, 90);
   Serial.println("Staring...");
   M5.Lcd.setCursor(110, 110);
@@ -50,8 +46,7 @@ void setup() {
 
   if (!SD.begin()) {
     M5.Lcd.fillScreen(BLACK);
-    M5.Lcd.drawBitmap(50, 70, 62, 115, (uint16_t *)insertsd_logo);
-    // M5.Lcd.drawBitmap(50, 70, 62, 115, reinterpret_cast<uint16_t *>(insertsd_logo));
+    M5.Lcd.drawBitmap(50, 70, 60, 60, (uint16_t *)IconSdCard60w);
     M5.Lcd.setCursor(130, 70);
     M5.Lcd.print("INSERT");
     M5.Lcd.setCursor(130, 90);
@@ -67,7 +62,7 @@ void setup() {
   }
   else if (!configWifi()) {
     M5.Lcd.fillScreen(BLACK);
-    M5.Lcd.drawBitmap(30, 75, 59, 59, (uint16_t *)error_logo);
+    M5.Lcd.drawBitmap(30, 75, 60, 60, (uint16_t *)IconError60w);
     M5.Lcd.setCursor(110, 70);
     M5.Lcd.print("CHECK YOUR");
     M5.Lcd.setCursor(110, 90);
@@ -85,7 +80,7 @@ void setup() {
     String localIP = WiFi.localIP().toString();
     Serial.println("WiFi local ip: " + localIP);
     M5.Lcd.fillScreen(BLACK);
-    M5.Lcd.drawBitmap(40, 80, 60, 60, (uint16_t *)wifi60w);
+    M5.Lcd.drawBitmap(40, 80, 60, 60, (uint16_t *)IconWifi60w);
     M5.Lcd.setCursor(130, 70);
     M5.Lcd.print("MARKDOWN");
     M5.Lcd.setCursor(130, 90);
@@ -176,7 +171,7 @@ bool configWifi() {
       String ssid = parseString(0, '\t', wifi);
       String pswd = parseString(1, '\t', wifi);
       Serial.println("Found ssid: " + ssid);
-      Serial.println("Found pswd: " + pswd);
+      Serial.println("Found pswd: ***"); // + pswd);
       char* ssid_ = strToChar(ssid);
       char* pswd_ = strToChar(pswd);
       // bool useAutoNetworkConfig = true;
@@ -271,7 +266,7 @@ void drawViews(int views) {
   // int views = getViews();
   if (views != -1) {
     M5.Lcd.fillRect(5, 185, 315, 60, BLACK);
-    M5.Lcd.drawBitmap(5, 185, 59, 59, (uint16_t *)views_logo);
+    M5.Lcd.drawBitmap(5, 180, 60, 60, (uint16_t *)IconCounterSm60w);
     M5.Lcd.setCursor(75, 205);
     M5.Lcd.print(views);
   }
