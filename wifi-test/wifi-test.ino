@@ -36,44 +36,45 @@ void setup() {
   M5.Lcd.setBrightness(10);
 
   M5.Lcd.fillScreen(BLACK);
-  M5.Lcd.setTextColor(WHITE);
-  M5.Lcd.setTextSize(2);
+  M5.Lcd.setTextColor(LIGHTGREY);
   M5.Lcd.drawBitmap(30, 85, 60, 60, (uint16_t *)IconClock60w);
   M5.Lcd.setCursor(110, 90);
   Serial.println("Staring...");
   M5.Lcd.setCursor(110, 110);
+  // M5.Lcd.setTextColor(GREEN);
+  M5.Lcd.setTextSize(2);
   M5.Lcd.print("Wait a moment");
 
   if (!SD.begin()) {
     M5.Lcd.fillScreen(BLACK);
     M5.Lcd.drawBitmap(50, 70, 60, 60, (uint16_t *)IconSdCard60w);
     M5.Lcd.setCursor(130, 70);
-    M5.Lcd.print("INSERT");
+    M5.Lcd.print("Insert");
     M5.Lcd.setCursor(130, 90);
-    M5.Lcd.print("THE TF-CARD");
+    M5.Lcd.print("The tf-card");
     M5.Lcd.setCursor(130, 110);
-    M5.Lcd.print("AND TAP");
+    M5.Lcd.print("and tap");
     M5.Lcd.setCursor(130, 130);
     M5.Lcd.setTextColor(0xe8e4);
-    M5.Lcd.print("POWER");
+    M5.Lcd.print("power");
     M5.Lcd.setTextColor(WHITE);
-    M5.Lcd.print(" BUTTON");
+    M5.Lcd.print(" button");
     while (true) {}
   }
   else if (!configWifi()) {
     M5.Lcd.fillScreen(BLACK);
     M5.Lcd.drawBitmap(30, 75, 60, 60, (uint16_t *)IconError60w);
     M5.Lcd.setCursor(110, 70);
-    M5.Lcd.print("CHECK YOUR");
+    M5.Lcd.print("Check your");
     M5.Lcd.setCursor(110, 90);
-    M5.Lcd.print("WI-FI SETTINGS");
+    M5.Lcd.print("Wi-Fi settings");
     M5.Lcd.setCursor(110, 110);
-    M5.Lcd.print("AND TAP");
+    M5.Lcd.print("and tap");
     M5.Lcd.setCursor(110, 130);
     M5.Lcd.setTextColor(0xe8e4);
-    M5.Lcd.print("POWER");
+    M5.Lcd.print("power");
     M5.Lcd.setTextColor(WHITE);
-    M5.Lcd.print(" BUTTON");
+    M5.Lcd.print(" button");
     while (true) {}
   }
   else {
@@ -82,14 +83,14 @@ void setup() {
     M5.Lcd.fillScreen(BLACK);
     M5.Lcd.drawBitmap(40, 80, 60, 60, (uint16_t *)IconWifi60w);
     M5.Lcd.setCursor(130, 70);
-    M5.Lcd.print("MARKDOWN");
+    M5.Lcd.print("Markdown");
     M5.Lcd.setCursor(130, 90);
-    M5.Lcd.print("WEB SERVER");
+    M5.Lcd.print("web server");
     M5.Lcd.setCursor(130, 110);
-    M5.Lcd.print("ON M5STACK");
-    M5.Lcd.setCursor(130, 130);
-    M5.Lcd.print(localIP);
+    M5.Lcd.print("on M5Stack");
     M5.Lcd.setCursor(130, 150);
+    M5.Lcd.print(localIP);
+    // M5.Lcd.setCursor(130, 150);
     // Reset & draw views count
     saveViews(0, true);
     // drawViews();
