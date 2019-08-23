@@ -2,11 +2,16 @@
 #include "WiFi.h"
 #include <String.h>
 
+#include "Constants.h"
+#include "Config.h"
+#include "Menu.h"
+
+const Config* config = Config::getConfig();
+const Menu* menu = Menu::getMenu();
+
 extern unsigned char IconClock60w[];
 extern unsigned char IconWifi60w[];
 extern unsigned char IconCounterSm60w[];
-
-#define MENU_COLOR GREENYELLOW
 
 int networksCount;
 int ssidLength = 12;
@@ -26,11 +31,12 @@ void LCD_Clear() {
 
 void DrawMenu(){
   M5.Lcd.setTextSize(2);
-  M5.Lcd.setTextColor(MENU_COLOR);
+  M5.Lcd.setTextColor(config->menuColor);
 
   if (showMenu == true) {
-    M5.Lcd.setCursor(125, 215);
-    M5.Lcd.printf("Rescan");
+    // M5.Lcd.setCursor(125, 215);
+    // M5.Lcd.printf("Rescan");
+    M5.Lcd.drawCentreString("Rescan", SCREEN_H_CENTER_POS, SCREEN_V_MENU_POS, SCREEN_DEFAULT_FONT);
     if (thisPage != 0) {
       M5.Lcd.setCursor(60, 215);
       M5.Lcd.printf("<");
@@ -49,8 +55,9 @@ void DrawMenu(){
     }
   }
   else {
-    M5.Lcd.setCursor(135, 215);
-    M5.Lcd.printf("Scan");
+    // M5.Lcd.setCursor(135, 215);
+    // M5.Lcd.printf("Scan");
+    M5.Lcd.drawCentreString("Scan", SCREEN_H_CENTER_POS, SCREEN_V_MENU_POS, SCREEN_DEFAULT_FONT);
   }
 }
 
@@ -70,26 +77,30 @@ void Show(int nav = 0) { // -1 top, 1 bottom
   }
   else {
     LCD_Clear();
-    M5.Lcd.setCursor(100, 5);
-    M5.Lcd.setTextColor(DARKGREY);
-    M5.Lcd.print("Total: ");
+    // M5.Lcd.setCursor(100, 5);
+    // M5.Lcd.print("Total: ");
+    // M5.Lcd.setTextColor(LIGHTGREY);
+    // M5.Lcd.print(networksCount);
     M5.Lcd.setTextColor(LIGHTGREY);
-    M5.Lcd.print(networksCount);
+    M5.Lcd.drawCentreString("Total: " + String(networksCount), SCREEN_H_CENTER_POS, 5, SCREEN_DEFAULT_FONT);
     for (int y = 35, i = (thisPage * pageSize); i < ((thisPage * pageSize) + pageSize); i++, y += 22) {
       if (i >= networksCount) break;
-      M5.Lcd.setCursor(10, y);
       M5.Lcd.setTextColor(DARKGREY);
-      M5.Lcd.print(String(i + 1) + ". ");
+      // M5.Lcd.setCursor(10, y);
+      // M5.Lcd.print(String(i + 1) + ". ");
+      M5.Lcd.drawString(String(i + 1), 10, y, SCREEN_DEFAULT_FONT);
       String ssid = WiFi.SSID(i);
       ssid = (ssid.length() > ssidLength) ? (ssid.substring(0, ssidLength) + "...") : ssid;
-      M5.Lcd.setCursor(55, y);
       M5.Lcd.setTextColor(WHITE);
       // M5.Lcd.print(ssid + " (" + WiFi.RSSI(i) + ")\n");
-      M5.Lcd.print(ssid);
-      M5.Lcd.setCursor(270, y);
+      // M5.Lcd.setCursor(55, y);
+      // M5.Lcd.print(ssid);
+      M5.Lcd.drawString(ssid, 55, y, SCREEN_DEFAULT_FONT);
       M5.Lcd.setTextColor(DARKGREY);
       int strength = WiFi.RSSI(i);
-      M5.Lcd.print(String(strength));
+      // M5.Lcd.print(String(strength));
+      // M5.Lcd.setCursor(270, y);
+      M5.Lcd.drawRightString(String(strength), 310, y, SCREEN_DEFAULT_FONT);
     }
     DrawMenu();
   }

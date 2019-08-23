@@ -26,7 +26,6 @@ unsigned long runTime = 0;
 int demoDelay = 5000;
 int buttonWaitingDelay = 100;
 
-/** setup ** {{{ */
 // cppcheck-suppress unusedFunction
 void setup() {
 
@@ -41,58 +40,48 @@ void setup() {
 
   Serial.println("BUTTON_A_PIN: " + String(BUTTON_A_PIN));
 
-}/*}}}*/
+}
 
-/** printHeader ** {{{
- */
 void printHeader(String str) {
   int bgColor = TFT_GREY;
   int fgColor = TFT_YELLOW;
   M5.Lcd.fillRect(0, 0, 319, 14, bgColor);
   M5.Lcd.setTextColor(fgColor, bgColor);
   M5.Lcd.drawCentreString(str, 160, 4, 1);
-}/*}}}*/
+}
 
-/** printFooter ** {{{
- */
 void printFooter(String str) {
   int bgColor = TFT_RED;
   int fgColor = TFT_BLACK;
   M5.Lcd.fillRect(0, 226, 319, 14, bgColor);
   M5.Lcd.setTextColor(fgColor, bgColor);
   M5.Lcd.drawCentreString(str, 160, 228, 1);
-}/*}}}*/
-/** printInfoAndWait ** {{{
- */
+}
 void printInfoAndWait(String str) {
   printHeader(str);
   printFooter("Press any button");
   // delay(demoDelay);
   waitForAnyButton();
-}/*}}}*/
+}
 
-// /** button ** {{{
-//  */
-// bool button(int contactNumber) {
-//   if (digitalRead(contactNumber) == LOW) {
-//     delay(10);
-//     if (digitalRead(contactNumber) == LOW) return true;
-//   }
-//   return false;
-// }/*}}}*/
-// /** waitForButton ** {{{
-//  */
-// void waitForButton(int contactNumber) {
-//   while (true) {
-//     if (digitalRead(contactNumber) == LOW) {
-//       return;
-//     }
-//     delay(buttonWaitingDelay);
-//   }
-// }/*}}}*/
-
-/** waitForAnyButton ** {{{
+/* // UNUSED
+ * bool button(int contactNumber) {
+ *   if (digitalRead(contactNumber) == LOW) {
+ *     delay(10);
+ *     if (digitalRead(contactNumber) == LOW) return true;
+ *   }
+ *   return false;
+ * }
+ * void waitForButton(int contactNumber) {
+ *   while (true) {
+ *     if (digitalRead(contactNumber) == LOW) {
+ *       return;
+ *     }
+ *     delay(buttonWaitingDelay);
+ *   }
+ * }
  */
+
 int waitForAnyButton() {
   int Buttons[] = {
     BUTTON_A_PIN,
@@ -122,9 +111,8 @@ int waitForAnyButton() {
     }
   }
   return 0;
-}/*}}}*/
+}
 
-/** loop ** {{{ */
 // cppcheck-suppress unusedFunction
 void loop() {
   randomSeed(millis());
@@ -405,4 +393,4 @@ void loop() {
 
   // delay(demoDelay);
 
-}/*}}}*/
+}
