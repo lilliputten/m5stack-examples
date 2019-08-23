@@ -1,0 +1,20 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_OUTPUT_MODE	u-ctags	/u-ctags or e-ctags/
+!_TAG_PROGRAM_AUTHOR	Universal Ctags Team	//
+!_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
+!_TAG_PROGRAM_URL	https://ctags.io/	/official site/
+!_TAG_PROGRAM_VERSION	0.0.0	/9b28d8ce/
+DrawMenu	wifi-scan.ino	/^void DrawMenu(){$/;"	f	typeref:typename:void
+LCD_Clear	wifi-scan.ino	/^void LCD_Clear() {$/;"	f	typeref:typename:void
+Search	wifi-scan.ino	/^void Search() {$/;"	f	typeref:typename:void
+Show	wifi-scan.ino	/^void Show(int nav = 0) { \/\/ -1 top, 1 bottom$/;"	f	typeref:typename:void
+leftLocked	wifi-scan.ino	/^bool leftLocked = false;$/;"	v	typeref:typename:bool
+loop	wifi-scan.ino	/^void loop() {$/;"	f	typeref:typename:void
+networksCount	wifi-scan.ino	/^int networksCount;$/;"	v	typeref:typename:int
+on	wifi-scan.ino	/^bool on = false;$/;"	v	typeref:typename:bool
+pageSize	wifi-scan.ino	/^const int pageSize = 8;$/;"	v	typeref:typename:const int
+rightLocked	wifi-scan.ino	/^bool rightLocked = false;$/;"	v	typeref:typename:bool
+setup	wifi-scan.ino	/^void setup() {$/;"	f	typeref:typename:void
+ssidLength	wifi-scan.ino	/^int ssidLength = 10;$/;"	v	typeref:typename:int
+thisPage	wifi-scan.ino	/^int thisPage = 0;$/;"	v	typeref:typename:int

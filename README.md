@@ -1,5 +1,10 @@
 # M5Stack Examples
 
+## Lib locations
+
+- `C:/Users/User/AppData/Local/Arduino15/packages/esp32/hardware/esp32/1.0.2/libraries/WiFi/src/WiFi.h`
+- `C:/ArduinoEsp32/hardware/esp32/1.0.2/libraries/WiFi/src/`
+
 ## Links
 
 ### GPS
@@ -10,3 +15,7 @@
 Tools:
 
 - [Latitude and Longitude Finder on Map Get Coordinates](https://www.latlong.net/)
+
+### WiFi geolocation
+
+- [Wifi Geolocation With MicroPython](https://appelsiini.net/2018/micropython-wifi-geolocation/)
