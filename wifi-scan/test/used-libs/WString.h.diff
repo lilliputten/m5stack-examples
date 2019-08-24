@@ -1,0 +1,11 @@
+--- WString.h.orig	Tue Apr 16 16:07:30 2019
++++ WString.h	Sat Aug 24 01:09:38 2019
+@@ -26,7 +26,7 @@
+ #include <stdlib.h>
+ #include <string.h>
+ #include <ctype.h>
+-#include <pgmspace.h>
++#include "pgmspace.h"
+ 
+ // An inherited class for holding the result of a concatenation.  These
+ // result objects are assumed to be writable by subsequent concatenations.

@@ -1,3 +1,8 @@
+/** @module testConfig
+ *  @since 2019.08.23, 21:47
+ *  @changed 2019.08.23, 21:47
+ */
+
 #include <iostream>
 using namespace std;
 
@@ -13,3 +18,5 @@ int main() {
   cout << "menuColor: " << menuColor << std::endl;
   return 0;
 }
+
+// vim: ft=arduino

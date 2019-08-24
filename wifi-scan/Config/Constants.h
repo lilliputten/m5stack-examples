@@ -1,9 +1,16 @@
-// vim: ft=arduino
+/** @module Constants_h
+ *  @since 2019.08.23, 21:31
+ *  @changed 2019.08.23, 21:31
+ */
+
+#ifndef _Constants_h_
+#define _Constants_h_
+
+#ifdef ESP32
 // #include <Arduino.h>
 // #include <M5Stack.h>
-
-#ifndef _Constants_
-#define _Constants_
+#include <utility/ILI9341_Defines.h> // Color definitions
+#endif
 
 #define WIDTH 320
 #define HEIGHT 240
@@ -16,4 +23,4 @@
 #define DEFAULT_FONT_SIZE 2
 #define MENU_FONT_SIZE DEFAULT_FONT_SIZE
 
-#endif // _Constants_
+#endif // _Constants_h_

@@ -1,17 +1,25 @@
+/** @module wifi-scan
+ *  @since 2019.08.23, 21:47
+ *  @changed 2019.08.23, 21:47
+ */
+
 #include <M5Stack.h>
 #include "WiFi.h"
 #include <String.h>
 
-#include "Constants.h"
-#include "Config.h"
-#include "Menu.h"
+// Icons...
+#include "Icons/IconClock60w.c";
+#include "Icons/IconWifi60w.c";
+#include "Icons/IconCounterSm60w.c";
 
-const Config* config = Config::getConfig();
-const Menu* menu = Menu::getMenu();
+// #include "Config/Constants.h"
+#include "Config/Config.cpp"
+#include "Menu/Menu.cpp"
 
-extern unsigned char IconClock60w[];
-extern unsigned char IconWifi60w[];
-extern unsigned char IconCounterSm60w[];
+Config config = Config::singleton();
+Menu menu = Menu::singleton();
+
+// Global variables (TO REFACTOR!)
 
 int networksCount;
 int ssidLength = 12;
@@ -21,17 +29,20 @@ bool showMenu = false;
 bool leftLocked = false;
 bool rightLocked = false;
 
+// #define ARRAYSIZE 10
+const String mainMenu = "uno|duo|tri|four";
+
 void LCD_Clear() {
   M5.Lcd.fillScreen(BLACK);
   M5.Lcd.setCursor(0, 0);
   // M5.Lcd.setTextColor(WHITE);
   M5.Lcd.setTextColor(LIGHTGREY);
-  M5.Lcd.setTextSize(2);
+  M5.Lcd.setTextSize(DEFAULT_FONT_SIZE);
 }
 
 void DrawMenu(){
-  M5.Lcd.setTextSize(2);
-  M5.Lcd.setTextColor(config->menuColor);
+  M5.Lcd.setTextSize(DEFAULT_FONT_SIZE);
+  M5.Lcd.setTextColor(config.menuColor);
 
   if (showMenu == true) {
     // M5.Lcd.setCursor(125, 215);
@@ -127,9 +138,13 @@ void setup() {
   WiFi.disconnect();
   M5.Lcd.setBrightness(10);
   M5.Lcd.drawBitmap(30, 85, 60, 60, (uint16_t *)IconWifi60w);
-  M5.Lcd.setTextSize(2);
-  M5.Lcd.setCursor(110, 110);
-  M5.Lcd.printf("Wi-Fi scanner");
+  // M5.Lcd.setTextSize(DEFAULT_FONT_SIZE);
+  // M5.Lcd.setCursor(110, 110);
+  // M5.Lcd.print("Wi-Fi scanner: " + String(pointerSize));
+  M5.Lcd.setTextColor(LIGHTGREY);
+  M5.Lcd.setTextSize(DEFAULT_FONT_SIZE);
+  M5.Lcd.drawString("Wi-Fi scanner", 110, 110, SCREEN_DEFAULT_FONT);
+  menu.setItems(mainMenu);
   DrawMenu();
 }
 

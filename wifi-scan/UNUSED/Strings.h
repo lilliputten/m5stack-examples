@@ -1,41 +1,39 @@
-/** @module Menu.h
+/** @module Strings_h
  *  @since 2019.08.23, 21:47
  *  @changed 2019.08.23, 21:47
  */
 
-#ifndef _Menu_
-#define _Menu_
+#ifndef _Strings_h_
+#define _Strings_h_
 
 // #include <Arduino.h>
 // #include <M5Stack.h>
+#include <WString.h>
 
 #include "Config.h"
 
-struct MenuItem {
-  int id;
-  String text;
-};
-
 // Singleton class
-class Menu {
+class Strings {
 
   private:
 
-    MenuItem[]
-
     // Singleton instance reference
-    static Menu* menu;
+    static Strings* _strings;
+
+    // const char *items[];
 
   public:
 
-    Menu();
+    Strings();
 
     // Singleton getter
-    static Menu* getMenu();
+    static Strings* singleton();
+
+    // void setItems(const char *pointer[]);
 
     // int wasClicked();
 
 };
 
-#endif // _Menu_
+#endif // _Strings_h_
 // vim: ft=arduino
