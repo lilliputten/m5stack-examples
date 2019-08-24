@@ -12,15 +12,18 @@
 #include <utility/ILI9341_Defines.h> // Color definitions
 #endif
 
-#define WIDTH 320
-#define HEIGHT 240
-#define SCREEN_H_CENTER_POS 160
-#define SCREEN_V_CENTER_POS 120
+#define SCREEN_WIDTH 320
+#define SCREEN_HEIGHT 240
+#define SCREEN_LAST_X 319
+#define SCREEN_LAST_Y 239
+#define SCREEN_H_CENTER 160
+#define SCREEN_V_CENTER 120
+#define SCREEN_CENTER_X 159
+#define SCREEN_CENTER_Y 119
 #define SCREEN_V_MENU_POS 215
-#define SCREEN_DEFAULT_FONT 1
+#define DEFAULT_FONT 1
 
 #define MENU_COLOR GREENYELLOW
 #define DEFAULT_FONT_SIZE 2
-#define MENU_FONT_SIZE DEFAULT_FONT_SIZE
 
 #endif // _Constants_h_

@@ -43,12 +43,12 @@ int MenuContainer::getItemsCount() {
   return itemsCount;
 }
 
-int MenuContainer::getActiveItemNo() {
+int MenuContainer::getActiveItem() {
   return activeItem;
 }
 
 String MenuContainer::getItemText(int no) {
-  return itemTexts[no];
+  return (no >= 0 && no < itemsCount) ? itemTexts[no] : "";
 }
 
 #endif // _MenuContainer_cpp_

@@ -37,7 +37,7 @@ class MenuContainer {
     void setItems(String str, int active);
     void setItems(String str);
     int getItemsCount();
-    int getActiveItemNo();
+    int getActiveItem();
     String getItemText(int no);
 
 };

@@ -23,5 +23,33 @@ Menu::Menu(void) {
 void Menu::setItems(String str) {
   menuContainer.setItems(str);
 }
+void Menu::setItems(String str, int active) {
+  menuContainer.setItems(str, active);
+}
+
+void Menu::display() {
+  M5.Lcd.fillRect(0, SCREEN_LAST_Y - MENU_HEIGHT, SCREEN_LAST_X, SCREEN_LAST_Y, MENU_BG_COLOR);
+  int itemsCount = menuContainer.getItemsCount();
+  if (itemsCount <= 0) {
+    return;
+  }
+  int activeItem = menuContainer.getActiveItem();
+  // Draw active menu item...
+  String text = (activeItem >= 0 && activeItem < itemsCount) ? menuContainer.getItemText(activeItem) : "";
+  text = (text.length() >= MENU_MAX_ITEM_LENGTH) ? (text.substring(0, MENU_MAX_ITEM_LENGTH - 3) + "...") : text;
+  M5.Lcd.setTextColor(MENU_TEXT_COLOR);
+  M5.Lcd.setTextSize(MENU_FONT_SIZE);
+  int yTextPos = SCREEN_LAST_Y - MENU_HEIGHT + 2;
+  M5.Lcd.drawCentreString(text, SCREEN_CENTER_X, yTextPos, DEFAULT_FONT);
+  // Draw arrows...
+  int yArrowsPos = yTextPos + 1;
+  M5.Lcd.setTextColor(MENU_ARROWS_COLOR);
+  if (activeItem > 0) {
+    M5.Lcd.drawString("<", MENU_H_OFFSET, yArrowsPos, DEFAULT_FONT);
+  }
+  if (activeItem < itemsCount - 1) {
+    M5.Lcd.drawRightString(">", SCREEN_LAST_X - MENU_H_OFFSET, yArrowsPos, DEFAULT_FONT);
+  }
+}
 
 #endif // _Menu_cpp_
