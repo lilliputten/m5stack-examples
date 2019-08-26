@@ -14,6 +14,8 @@
 
 #include "MenuContainer.h"
 
+#include "../Interactive/Interactive.h"
+
 #define MENU_HEIGHT 21
 #define MENU_BG_COLOR BLACK
 // #define MENU_BG_COLOR MAROON
@@ -23,8 +25,7 @@
 #define MENU_FONT_SIZE DEFAULT_FONT_SIZE
 #define MENU_H_OFFSET 5
 
-// Singleton class
-class Menu {
+class Menu: public Interactive {
 
   // Singleton...
   private: static Menu* __singleton;
@@ -37,6 +38,7 @@ class Menu {
   public:
 
     Menu();
+    Menu(String id);
 
     void setItems(String str);
     void setItems(String str, int active);

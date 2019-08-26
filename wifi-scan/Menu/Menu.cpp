@@ -8,15 +8,20 @@
 
 #include "Menu.h"
 
+#include "../Interactive/Interactive.cpp"
+
 #include "MenuContainer.cpp"
 
-Menu* Menu::__singleton = 0; Menu Menu::singleton() {
 // Singleton...
+Menu* Menu::__singleton = 0; Menu Menu::singleton() {
   if (Menu::__singleton == 0) Menu::__singleton = new Menu();
   return *Menu::__singleton;
 }
 
-Menu::Menu(void) {
+Menu::Menu(void) : Interactive("defaultMenu") {
+  // menuContainer = new MenuContainer();
+}
+Menu::Menu(String id) : Interactive(id) {
   // menuContainer = new MenuContainer();
 }
 
@@ -28,6 +33,7 @@ void Menu::setItems(String str, int active) {
 }
 
 void Menu::display() {
+  #ifdef ESP32
   M5.Lcd.fillRect(0, SCREEN_LAST_Y - MENU_HEIGHT, SCREEN_LAST_X, SCREEN_LAST_Y, MENU_BG_COLOR);
   int itemsCount = menuContainer.getItemsCount();
   if (itemsCount <= 0) {
@@ -50,6 +56,7 @@ void Menu::display() {
   if (activeItem < itemsCount - 1) {
     M5.Lcd.drawRightString(">", SCREEN_LAST_X - MENU_H_OFFSET, yArrowsPos, DEFAULT_FONT);
   }
+  #endif
 }
 
 #endif // _Menu_cpp_

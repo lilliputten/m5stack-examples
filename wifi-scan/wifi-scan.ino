@@ -7,7 +7,7 @@
 
 #include <M5Stack.h>
 #include <WiFi.h>
-#include <String.h>
+// #include <String.h>
 
 // Icons...
 #include "Icons/IconClock60w.c";
