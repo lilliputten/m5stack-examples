@@ -38,17 +38,44 @@ Config config = Config::singleton();
 InteractiveStack interactiveStack = InteractiveStack::singleton();
 
 int main() {
-  Menu menu1("menu1");
+
+  // Create interactive menu instance...
+  Menu menu1("menu1", "btn1|btn2");
   // Interactive menu1("menu1");
+
+  // Add menu to stack
   interactiveStack.push(&menu1);
   Serial.println("size1: " + String(interactiveStack.getSize()));
-  Interactive* active = interactiveStack.getActive();
-  active->pollButtons();
-  String activeId = active ? active->getId() : "null";
-  Serial.println("active interactive: " + activeId);
+
+  // Get last interactive instance from stack
+  Interactive* last = interactiveStack.getLast();
+  // Get last item id
+  String lastId = last ? last->getId() : "null";
+  Serial.println("last interactive id: " + lastId);
+
+  // // Call overrided interactive methods
+  // last->pollButtons();
+  // last->wasPressed();
+
+  // Call last interactive methods
+
+  int lastPollButtons = interactiveStack.lastPollButtons();
+  Serial.println("lastPollButtons: " + String(lastPollButtons));
+
+  int lastWasPressed1 = interactiveStack.lastWasPressed();
+  Serial.println("lastWasPressed1: " + String(lastWasPressed1));
+
+  // // Test to create overrided interactive class...
+  // // Menu* ptr = &menu1;
+  // Interactive* ptr = &menu1;
+  // ptr->wasPressed();
+
+  // Remove last interactive handler...
   interactiveStack.pop();
   Serial.println("size2: " + String(interactiveStack.getSize()));
-  // String firstText = interactiveStack->getItemText(0);
-  // cout << "firstText: " << firstText.c_str() << endl;
+
+  int lastWasPressed2 = interactiveStack.lastWasPressed();
+  Serial.println("lastWasPressed2: " + String(lastWasPressed2));
+
   return 0;
 }

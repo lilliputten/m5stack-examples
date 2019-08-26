@@ -25,22 +25,27 @@ void MenuContainer::setItems(String str, int active) {
       next = len;
     }
     String text = str.substring(pos, next);
-    #ifdef DEBUG
-    Serial.println("MenuContainer::setItems: [" + String(this->itemsCount) + "] " + String(pos) + "-" + String(next) + ": " + text);
-    #endif
+    /* #ifdef DEBUG
+     *   Serial.println("MenuContainer::setItems: [" + String(this->itemsCount) + "] " + String(pos) + "-" + String(next) + ": " + text);
+     * #endif
+     */
     pos = next + 1;
     this->itemTexts[this->itemsCount++] = text;
   }
-  // #ifdef DEBUG
-  // Serial.println("MenuContainer::setItems: itemsCount: " + String(this->itemsCount));
-  // #endif
+  /* #ifdef DEBUG
+   *   Serial.println("MenuContainer::setItems: itemsCount: " + String(this->itemsCount));
+   * #endif
+   */
 }
 void MenuContainer::setItems(String str) {
   this->setItems(str, 0);
 }
 
+String MenuContainer::getItemsStr() {
+  return this->itemsStr;
+}
 int MenuContainer::getItemsCount() {
-  return itemsCount;
+  return this->itemsCount;
 }
 
 int MenuContainer::getActiveItem() {
@@ -48,7 +53,7 @@ int MenuContainer::getActiveItem() {
 }
 
 String MenuContainer::getItemText(int no) {
-  return (no >= 0 && no < itemsCount) ? itemTexts[no] : "";
+  return (no >= 0 && no < this->itemsCount) ? this->itemTexts[no] : "";
 }
 
 #endif // _MenuContainer_cpp_

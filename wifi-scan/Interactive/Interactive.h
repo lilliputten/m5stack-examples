@@ -7,11 +7,23 @@
 #define _Interactive_h_
 
 #ifdef ESP32 // Arduino build
-#include <M5Stack.h>
-// #include <WString.h>
+  #include <M5Stack.h>
+  // #include <WString.h>
+#else
+  #ifndef BTN_A
+    #define BTN_A 777
+  #endif
+  #ifndef BTN_B
+    #define BTN_B 888
+  #endif
+  #ifndef BTN_C
+    #define BTN_C 999
+  #endif
 #endif
 
-#define NO_BTN -1
+#ifndef NO_BTN
+  #define NO_BTN -1
+#endif
 
 class Interactive {
 
@@ -26,19 +38,22 @@ class Interactive {
   public:
 
     // Interactive();
-    Interactive(String id);
+    explicit Interactive(String id = "");
+    virtual ~Interactive();
 
     void init();
 
-    void setEnabled(bool enabled);
-    bool getEnabled();
-    void enable();
-    void disable();
+    virtual void setEnabled(bool enabled);
+    virtual bool getEnabled();
+    virtual void enable();
+    virtual void disable();
 
-    void setId(String id);
-    String getId();
-    int wasPressed();
-    void pollButtons();
+    virtual void setId(String id);
+    virtual String getId();
+
+    virtual int wasPressed();
+
+    virtual int pollButtons();
 
 };
 

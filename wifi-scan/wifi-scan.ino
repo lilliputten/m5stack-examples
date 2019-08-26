@@ -17,10 +17,8 @@
 #include "Config/Config.cpp"
 #include "Menu/Menu.cpp"
 
-// XXX STOPPED 2019.08.24, 05:25 -- Process menu buttons (wasPressed?) + Parse menu item id's.
-
-Config config = Config::singleton();
-Menu menu = Menu::singleton();
+#include "Interactive/Interactive.cpp"
+#include "InteractiveStack/InteractiveStack.cpp"
 
 // Global variables (TO REFACTOR!)
 
@@ -32,8 +30,16 @@ bool showMenu = false;
 bool leftLocked = false;
 bool rightLocked = false;
 
-// #define ARRAYSIZE 10
-const String mainMenu = "Scan|Duo|Tri|Four";
+// XXX STOPPED 2019.08.24, 05:25 -- Process menu buttons (wasPressed?) + Parse menu item id's.
+
+Config config = Config::singleton();
+
+InteractiveStack interactiveStack = InteractiveStack::singleton();
+
+const String mainMenuId = "mainMenu";
+const String mainMenuButtons = "Scan|Duo|Tri|Four";
+
+Menu* mainMenu = new Menu(mainMenuId, mainMenuButtons);
 
 void LCD_Clear() {
   M5.Lcd.fillScreen(BLACK);
@@ -134,29 +140,99 @@ void Search() {
 
 // cppcheck-suppress unusedFunction
 void setup() {
+
   M5.begin();
   Serial.begin(9600);
+  // Serial.begin(115200);
   Serial.println("Start");
-  WiFi.mode(WIFI_STA);
-  WiFi.disconnect();
-  M5.Lcd.setBrightness(10);
-  M5.Lcd.drawBitmap(30, 85, 60, 60, (uint16_t *)IconWifi60w);
-  // M5.Lcd.setTextSize(DEFAULT_FONT_SIZE);
-  // M5.Lcd.setCursor(110, 110);
-  // M5.Lcd.print("Wi-Fi scanner: " + String(pointerSize));
-  M5.Lcd.setTextColor(LIGHTGREY);
-  M5.Lcd.setTextSize(DEFAULT_FONT_SIZE);
-  M5.Lcd.drawString("Wi-Fi scanner", 110, 110, DEFAULT_FONT);
 
-  menu.setItems(mainMenu);
-  menu.display();
+  try {
+
+    WiFi.mode(WIFI_STA);
+    WiFi.disconnect();
+    M5.Lcd.setBrightness(10);
+    M5.Lcd.drawBitmap(30, 85, 60, 60, (uint16_t *)IconWifi60w);
+    // M5.Lcd.setTextSize(DEFAULT_FONT_SIZE);
+    // M5.Lcd.setCursor(110, 110);
+    // M5.Lcd.print("Wi-Fi scanner: " + String(pointerSize));
+    M5.Lcd.setTextColor(LIGHTGREY);
+    M5.Lcd.setTextSize(DEFAULT_FONT_SIZE);
+    M5.Lcd.drawString("Wi-Fi scanner", 110, 110, DEFAULT_FONT);
+
+    interactiveStack.push(mainMenu);
+    interactiveStack.lastRender();
+    interactiveStack.lastPollButtons();
+
+  }
+  catch (const std::overflow_error& error) { // this executes if f() throws std::overflow_error (same type rule)
+    Serial.println("Overflow error: " + String(error.what()));
+  }
+  catch (const std::runtime_error& error) { // this executes if f() throws std::underflow_error (base class rule)
+    Serial.println("Runtime error: " + String(error.what()));
+  }
+  catch (const std::exception& error) { // this executes if f() throws std::logic_error (base class rule)
+    Serial.println("Exception error: " + String(error.what()));
+  }
+  catch (const String& error) { // this executes if f() throws std::logic_error (base class rule)
+    Serial.println("Error: " + error);
+  }
+  catch (...) { // this executes if f() throws std::string or int or any other unrelated type
+    Serial.println("Unknown error ");
+  }
+
+  // menu.setItems(mainMenuButtons);
+  // menu.render();
   // DrawMenu();
 }
 
 // cppcheck-suppress unusedFunction
 void loop() {
-  if (M5.BtnA.wasPressed()) Show(-1);
-  if (M5.BtnB.wasPressed()) Search();
-  if (M5.BtnC.wasPressed()) Show(1);
+
+  try {
+    // int size = interactiveStack.getSize();
+    // Serial.println("stack size: " + String(size));
+    // Interactive* last = interactiveStack.getLast();
+    // unsigned long lastAddr = (unsigned long) last;
+    // Serial.println("lastAddr: " + String(lastAddr, 16));
+    // unsigned long menuAddr = (unsigned long) mainMenu;
+    // Serial.println("menuAddr: " + String(menuAddr, 16));
+    // String menuId = mainMenu->getId();
+    // Serial.println("mainMenuId: " + menuId);
+    // String lastId = last->getId();
+    // Serial.println("lastId: " + lastId);
+    mainMenu->pollButtons();
+    // interactiveStack.lastPollButtons();
+  }
+  catch (const std::overflow_error& error) { // this executes if f() throws std::overflow_error (same type rule)
+    Serial.println("Overflow error: " + String(error.what()));
+  }
+  catch (const std::runtime_error& error) { // this executes if f() throws std::underflow_error (base class rule)
+    Serial.println("Runtime error: " + String(error.what()));
+  }
+  catch (const std::exception& error) { // this executes if f() throws std::logic_error (base class rule)
+    Serial.println("Exception error: " + String(error.what()));
+  }
+  catch (const String& error) { // this executes if f() throws std::logic_error (base class rule)
+    Serial.println("Error: " + error);
+  }
+  catch (...) { // this executes if f() throws std::string or int or any other unrelated type
+    Serial.println("Unknown error");
+  }
+
+  delay(500);
+
+  // TODO 2019.08.26, 23:35 -- Test buttons, try w/o delay...
+
+  /*
+   * if (M5.BtnA.wasPressed()) {
+   *   Serial.println("Test: A button pressed");
+   * }
+   */
+  /*
+   * if (M5.BtnA.wasPressed()) Show(-1);
+   * if (M5.BtnB.wasPressed()) Search();
+   * if (M5.BtnC.wasPressed()) Show(1);
+   */
+
   M5.update();
 }

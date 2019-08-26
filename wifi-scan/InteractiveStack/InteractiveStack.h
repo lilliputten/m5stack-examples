@@ -31,7 +31,11 @@ class InteractiveStack {
     int getSize();
     void push(Interactive* ptr);
     Interactive* pop();
-    Interactive* getActive();
+    Interactive* getLast();
+
+    void lastRender();
+    int lastPollButtons();
+    int lastWasPressed();
 
 };
 

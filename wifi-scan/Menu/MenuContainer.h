@@ -14,7 +14,6 @@
 
 #define MAX_MENU_ITEMS 20
 
-// Singleton class
 class MenuContainer {
 
   private:
@@ -37,6 +36,7 @@ class MenuContainer {
     void setItems(String str, int active);
     void setItems(String str);
     int getItemsCount();
+    String getItemsStr();
     int getActiveItem();
     String getItemText(int no);
 

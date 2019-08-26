@@ -25,6 +25,8 @@
 #define MENU_FONT_SIZE DEFAULT_FONT_SIZE
 #define MENU_H_OFFSET 5
 
+#define DEFAULT_MENU_ID "defaultMenu"
+
 class Menu: public Interactive {
 
   // Singleton...
@@ -38,13 +40,18 @@ class Menu: public Interactive {
   public:
 
     Menu();
-    Menu(String id);
+    explicit Menu(String id);
+    Menu(String id, String items, int active = 0);
 
-    void setItems(String str);
-    void setItems(String str, int active);
-    void display();
+    virtual String getId();
 
-    // int wasClicked();
+    // void setItems(String str);
+    virtual void setItems(String str, int active = 0);
+
+    virtual void render();
+
+    virtual int wasPressed();
+    virtual int pollButtons();
 
 };
 

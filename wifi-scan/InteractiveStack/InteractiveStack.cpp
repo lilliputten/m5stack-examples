@@ -36,9 +36,24 @@ Interactive* InteractiveStack::pop() {
   Interactive* ptr = this->ptrStack[--this->size];
   return ptr;
 }
-Interactive* InteractiveStack::getActive() {
+Interactive* InteractiveStack::getLast() {
   Interactive* ptr = (this->size > 0) ? this->ptrStack[this->size - 1] : 0;
   return ptr;
 }
+
+void InteractiveStack::lastRender() {
+  Interactive* last = this->getLast();
+  if (last) {
+  }
+}
+int InteractiveStack::lastPollButtons() {
+  Interactive* last = this->getLast();
+  return (last) ? last->pollButtons() : NO_BTN;
+}
+int InteractiveStack::lastWasPressed() {
+  Interactive* last = this->getLast();
+  return (last) ? last->wasPressed() : NO_BTN;
+}
+
 
 #endif // _InteractiveStack_cpp_
