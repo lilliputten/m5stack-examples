@@ -78,15 +78,13 @@ int Menu::wasPressed() {
 
 int Menu::pollButtons() {
 
-  Serial.println("Menu::pollButtons");
-
   // Get pressed status
   int buttonPressed = Interactive::pollButtons();
 
-  #ifdef DEBUG // Test mode...
-    String id = this->getId();
-    Serial.println("Menu::pollButtons(" + id + "): " + String(buttonPressed));
-  #endif
+  // #ifdef DEBUG // Test mode...
+  //   String id = this->getId();
+  //   Serial.println("Menu::pollButtons(" + id + "): " + String(buttonPressed));
+  // #endif
 
   // Return current status
   return buttonPressed;

@@ -5,6 +5,8 @@
 
 #define DEBUG // Display debug info to Serial line
 
+#define INTERACTIVE_LOOP_DELAY 100 // Buttons polling interval (ms; ie -- buttons responsibility)
+
 #include <M5Stack.h>
 #include <WiFi.h>
 // #include <String.h>
@@ -26,7 +28,7 @@ int networksCount;
 int ssidLength = 12;
 int thisPage = 0;
 const int pageSize = 8;
-bool showMenu = false;
+bool showMenu = false; // Show full menu flag
 bool leftLocked = false;
 bool rightLocked = false;
 
@@ -127,7 +129,7 @@ void Show(int nav = 0) { // -1 top, 1 bottom
 }
 
 void Search() {
-  showMenu = true;
+  showMenu = true; // Display full menu
   LCD_Clear();
   M5.Lcd.drawBitmap(30, 85, 60, 60, (uint16_t *)IconClock60w);
   M5.Lcd.setCursor(110, 95);
@@ -135,6 +137,7 @@ void Search() {
   M5.Lcd.setCursor(110, 125);
   M5.Lcd.printf("Searching...");
   networksCount = WiFi.scanNetworks();
+  thisPage = 0; // Reset page
   Show();
 }
 
@@ -182,7 +185,7 @@ void setup() {
 
   // menu.setItems(mainMenuButtons);
   // menu.render();
-  // DrawMenu();
+  DrawMenu();
 }
 
 // cppcheck-suppress unusedFunction
@@ -219,7 +222,7 @@ void loop() {
     Serial.println("Unknown error");
   }
 
-  delay(500);
+  delay(INTERACTIVE_LOOP_DELAY);
 
   // TODO 2019.08.26, 23:35 -- Test buttons, try w/o delay...
 
@@ -228,11 +231,9 @@ void loop() {
    *   Serial.println("Test: A button pressed");
    * }
    */
-  /*
-   * if (M5.BtnA.wasPressed()) Show(-1);
-   * if (M5.BtnB.wasPressed()) Search();
-   * if (M5.BtnC.wasPressed()) Show(1);
-   */
+  if (M5.BtnA.wasPressed()) Show(-1);
+  if (M5.BtnB.wasPressed()) Search();
+  if (M5.BtnC.wasPressed()) Show(1);
 
   M5.update();
 }
