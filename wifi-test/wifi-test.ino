@@ -5,6 +5,12 @@
 
 #include <M5Stack.h>
 #include <WiFi.h>
+// #include <SD.h>
+// #include "FS.h"
+// #include "SD.h"
+// #include "SPI.h"
+// #include "time.h"
+// #include "math.h"
 
 // #include "Module.h"
 // Module module;
@@ -17,10 +23,20 @@ extern unsigned char IconCounterSm60w[];
 
 WiFiServer server(80);
 
+int localViews = -1;
+
+bool useLocalWifiSettings = true;
+
+String wifiEntries[][2] = {
+  {"HUAWEI-B0C4", "71157738"},
+};
+
 // bool useAutoNetworkConfig = true;
 // IPAddress networkIp(192, 168, 0, 19);
 // IPAddress networkGateway(192, 168, 0, 1);
 // IPAddress networkSubnet(255, 255, 255, 0);
+
+int textSize = 2;
 
 // cppcheck-suppress unusedFunction
 void setup() {
@@ -28,6 +44,7 @@ void setup() {
   M5.begin();
 
   Serial.begin(9600);
+  // Serial.begin(115200);
   Serial.println("Start");
 
   // int testResult = module.test();
@@ -38,14 +55,26 @@ void setup() {
   M5.Lcd.fillScreen(BLACK);
   M5.Lcd.setTextColor(LIGHTGREY);
   M5.Lcd.drawBitmap(30, 85, 60, 60, (uint16_t *)IconClock60w);
-  M5.Lcd.setCursor(110, 90);
+  // M5.Lcd.setCursor(110, 90);
   Serial.println("Staring...");
   M5.Lcd.setCursor(110, 110);
   // M5.Lcd.setTextColor(GREEN);
-  M5.Lcd.setTextSize(2);
+  M5.Lcd.setTextSize(textSize);
   M5.Lcd.print("Wait a moment");
 
-  if (!SD.begin()) {
+  bool isConnected = false;
+
+  if (useLocalWifiSettings) {
+    if (!setupWifiFromEntries()) {
+      Serial.println("setupWifiFromEntries failed!");
+    }
+    else {
+      Serial.println("setupWifiFromEntries success!");
+      isConnected = true;
+    }
+  }
+  else if (!SD.begin()) { // 2022.02.06 -- Is device tf card interface broken?
+    Serial.println("SD.begin failed!");
     M5.Lcd.fillScreen(BLACK);
     M5.Lcd.drawBitmap(50, 70, 60, 60, (uint16_t *)IconSdCard60w);
     M5.Lcd.setCursor(130, 70);
@@ -57,11 +86,11 @@ void setup() {
     M5.Lcd.setCursor(130, 130);
     M5.Lcd.setTextColor(0xe8e4);
     M5.Lcd.print("power");
-    M5.Lcd.setTextColor(WHITE);
+    M5.Lcd.setTextColor(LIGHTGREY);
     M5.Lcd.print(" button");
     while (true) {}
   }
-  else if (!configWifi()) {
+  else if (!setupWifiFromFile()) {
     M5.Lcd.fillScreen(BLACK);
     M5.Lcd.drawBitmap(30, 75, 60, 60, (uint16_t *)IconError60w);
     M5.Lcd.setCursor(110, 70);
@@ -73,11 +102,12 @@ void setup() {
     M5.Lcd.setCursor(110, 130);
     M5.Lcd.setTextColor(0xe8e4);
     M5.Lcd.print("power");
-    M5.Lcd.setTextColor(WHITE);
+    M5.Lcd.setTextColor(LIGHTGREY);
     M5.Lcd.print(" button");
     while (true) {}
   }
-  else {
+
+  if (isConnected) {
     String localIP = WiFi.localIP().toString();
     Serial.println("WiFi local ip: " + localIP);
     M5.Lcd.fillScreen(BLACK);
@@ -161,7 +191,53 @@ int cntChrs(String str, char chr) {
   return cnt;
 }
 
-bool configWifi() {
+/*
+*/
+bool checkWifi(String ssid, String pswd) {
+  char* ssid_ = strToChar(ssid);
+  char* pswd_ = strToChar(pswd);
+  if (WiFi.begin(ssid_, pswd_)) {
+    Serial.println("checkWiFi.begin: started");
+    delay(10);
+    unsigned long timeoutMs = 10000;
+    unsigned long prevMs = millis();
+    while (true) {
+      unsigned long currMs = millis();
+      unsigned long diffMs = currMs - prevMs;
+      if (diffMs > timeoutMs) {
+        Serial.println("checkWiFi.begin: wait " + String(diffMs));
+        break;
+      }
+      if (WiFi.status() == WL_CONNECTED) {
+        Serial.println("checkWiFi: Connected");
+        return true;
+      }
+      delay(100);
+    }
+  }
+  Serial.println("checkWiFi: Failed");
+  return false;
+}
+
+bool setupWifiFromEntries() {
+  int length = sizeof(wifiEntries) / sizeof(wifiEntries[0]);
+  Serial.println("setupWifiFromEntries: " + String(length) + " / " + wifiEntries[0][0] + " / " + wifiEntries[0][1]);
+  for (int i = 0; i < length; i++) {
+    String ssid = wifiEntries[i][0];
+    String pswd = wifiEntries[i][1];
+    Serial.println("setupWifiFromEntries: item " + String(i) + " / " + String(length) + " : " + ssid + " / " + pswd);
+    if (checkWifi(ssid, pswd)) {
+      Serial.println("setupWifiFromEntries: item " + String(i) + ": success");
+      return true;
+    }
+  }
+  /*
+  */
+  Serial.println("setupWifiFromEntries: failed");
+  return false;
+}
+
+bool setupWifiFromFile() {
   /* Get WiFi SSID & password from wifi.ini from TF-card */
   String file = TFReadFile("/system/wifi.ini");
   if (file != "") {
@@ -240,6 +316,9 @@ String parseGET(String str) {
  */
 
 int getViews() {
+  if (localViews != -1) {
+    return localViews;
+  }
   String file = TFReadFile("/system/views");
   if (file != "") {
     return file.toInt();
@@ -248,6 +327,7 @@ int getViews() {
 }
 
 bool saveViews(int views, bool draw) {
+  localViews = views;
   if (draw) {
     drawViews(views);
   }
