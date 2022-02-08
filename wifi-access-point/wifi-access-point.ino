@@ -5,8 +5,8 @@
 #define button_B 38
 #define button_C 37
 
-char ssid[] = "Thom_D0047515";
-char password[] = "mountain";
+char ssid[] = "ZyxelWiFi";
+char password[] = "chelniciNo1972";
 
 WiFiServer server(80);
 IPAddress ip(192, 168, 0, 17);

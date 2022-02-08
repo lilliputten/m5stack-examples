@@ -25,9 +25,11 @@ WiFiServer server(80);
 
 int localViews = -1;
 
-bool useLocalWifiSettings = true;
+bool useLocalWifiSettings = false;
 
 String wifiEntries[][2] = {
+  {"ZyxelWiFi", "chelniciNo1972"},
+  {"kv 71", "timur2609"},
   {"HUAWEI-B0C4", "71157738"},
 };
 
